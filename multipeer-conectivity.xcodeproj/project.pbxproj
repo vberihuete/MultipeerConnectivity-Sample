@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9F82B28E217563E7008B94C8 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F82B28D217563E7008B94C8 /* Dispatch.swift */; };
+		9F82B2902177BAA8008B94C8 /* Communication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F82B28F2177BAA8008B94C8 /* Communication.swift */; };
 		9FF7C16721753FC60001C3D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF7C16621753FC60001C3D4 /* AppDelegate.swift */; };
 		9FF7C16921753FC60001C3D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF7C16821753FC60001C3D4 /* ViewController.swift */; };
 		9FF7C16C21753FC60001C3D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FF7C16A21753FC60001C3D4 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		9F82B28D217563E7008B94C8 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
+		9F82B28F2177BAA8008B94C8 /* Communication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Communication.swift; sourceTree = "<group>"; };
 		9FF7C16321753FC60001C3D4 /* multipeer-conectivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "multipeer-conectivity.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FF7C16621753FC60001C3D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FF7C16821753FC60001C3D4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				9FF7C17B2175409A0001C3D4 /* ConnectivityService.swift */,
+				9F82B28F2177BAA8008B94C8 /* Communication.swift */,
 			);
 			path = connectivity;
 			sourceTree = "<group>";
@@ -154,6 +157,7 @@
 			files = (
 				9FF7C17C2175409A0001C3D4 /* ConnectivityService.swift in Sources */,
 				9FF7C16F21753FC60001C3D4 /* multipeer_conectivity.xcdatamodeld in Sources */,
+				9F82B2902177BAA8008B94C8 /* Communication.swift in Sources */,
 				9F82B28E217563E7008B94C8 /* Dispatch.swift in Sources */,
 				9FF7C16921753FC60001C3D4 /* ViewController.swift in Sources */,
 				9FF7C16721753FC60001C3D4 /* AppDelegate.swift in Sources */,
