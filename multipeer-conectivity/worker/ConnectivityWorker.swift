@@ -13,6 +13,8 @@ class ConnectivityWorker: NSObject{
     
     private var serviceAdvertiser : MCNearbyServiceAdvertiser?
     private var serviceBrowser: MCNearbyServiceBrowser?
+    private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
     var delegate: ConnectivityWorkerDelegate?
     
     func start(withPeerId peerId: MCPeerID, serviceType: String) {
@@ -40,8 +42,31 @@ class ConnectivityWorker: NSObject{
     ///   - peerId: The peerId of the invited device
     ///   - session: The session to be invited to
     ///   - timeout: The amont of seconds for the invitation to timeout; default value is 20
-    func invite(peer peerId: MCPeerID, into session: MCSession, with timeout: TimeInterval = 20){
-        self.serviceBrowser?.invitePeer(peerId, to: session, withContext: nil, timeout: timeout)
+    func invite(peer peerId: MCPeerID, into session: MCSession, using data: Communication? = nil, with timeout: TimeInterval = 20){
+//        data?.origin = UIDevice.current.userInterfaceIdiom == .pad ? .pad : .phone
+        self.serviceBrowser?.invitePeer(peerId, to: session, withContext: try? encoder.encode(data), timeout: timeout)
+    }
+    
+
+    /// Encodes the given data and if it throws an error it will return an empty data pb
+    ///
+    /// - Parameter data: The object that uses type Codable
+    /// - Returns: The data object
+    func encode<T: Codable>(_ data: T) -> Data{
+        do {
+            return try encoder.encode(data)
+        } catch {
+            return Data()
+        }
+    }
+    
+    
+    /// Decodes the given data based on the expected type
+    ///
+    /// - Parameter data: The data
+    /// - Returns: The parsed date if the decoder was able to decode
+    func decode<T: Codable>(_ data: Data) -> T?{
+        return try? decoder.decode(T.self, from: data)
     }
 }
 

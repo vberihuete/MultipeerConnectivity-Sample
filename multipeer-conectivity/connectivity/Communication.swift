@@ -12,6 +12,12 @@ struct Communication: Codable{
     var type: CommunicationType
     var origin: CommunicationOrigin
     var data: Data
+    
+    init(type: CommunicationType = .join, data: Data, origin: CommunicationOrigin = .phone){
+        self.type = type
+        self.data = data
+        self.origin = origin
+    }
 }
 
 enum CommunicationOrigin: Int, Codable{
@@ -20,6 +26,7 @@ enum CommunicationOrigin: Int, Codable{
 }
 
 enum CommunicationType: Int, Codable {
+    case join //join the session
     case products
     case bills
     case tablesCount

@@ -55,8 +55,24 @@ class ConnectivityConfigurator: NSObject{
     
     
     /// Invites a peerId into a session
-    func invite(peer peerId: MCPeerID, with timeout: TimeInterval = 20){
-        self.worker.invite(peer: peerId, into: self.session, with: timeout)
+    func invite(peer peerId: MCPeerID, using data: Communication? = nil, with timeout: TimeInterval = 20){
+        self.worker.invite(peer: peerId, into: self.session, using: data, with: timeout)
+    }
+    
+    /// Encodes the given data and if it throws an error it will return an empty data pb
+    ///
+    /// - Parameter data: The object that uses type Codable
+    /// - Returns: The data object
+    func encode<T: Codable>(_ data: T) -> Data{
+       return self.worker.encode(data)
+    }
+    
+    /// Decodes the given data based on the expected type
+    ///
+    /// - Parameter data: The data
+    /// - Returns: The parsed date if the decoder was able to decode
+    func decode<T: Codable>(_ data: Data) -> T?{
+        return self.worker.decode(data)
     }
 }
 
@@ -86,7 +102,25 @@ extension ConnectivityConfigurator: MCSessionDelegate{
 extension ConnectivityConfigurator: ConnectivityWorkerDelegate{
     
     func handle(invitation: @escaping (Bool, MCSession?) -> (), withData data: Data?) {
-        // TODO: validate device invitation to connect
+        guard let data = data, let communication: Communication = self.decode(data), communication.type == .join else{
+            // TODO:  remove
+            print("Session rejected because no credentials were sent")
+            invitation(false, self.session)
+            return
+        }
+        
+        guard communication.origin == .phone, UIDevice.current.userInterfaceIdiom == .pad else{
+            print("Session rejected because only phones can request connections and they can only be directed to an ipad")
+            invitation(false, self.session)
+            return
+        }
+        
+        print("here's the parsed data")
+        if let data: [String] = self.decode(communication.data) {
+            //TODO: Validate user data
+            print(data)
+        }
+        print("End of the parsed data")
         invitation(true, self.session)
     }
     

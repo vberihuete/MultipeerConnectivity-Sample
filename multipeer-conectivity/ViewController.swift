@@ -56,9 +56,10 @@ extension ViewController: UITableViewDataSource{
 
 extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let name = data[indexPath.row]
-        ConnectivityConfigurator.shared.invite(peer: data[indexPath.row])
-//        connectivityService.invite(peer: name)
+        var userData : [String] = ["username", "something", "firstname", "Vincent"]
+        userData.append(contentsOf: [String](repeating: "something", count: 10000))
+        let communication = Communication(data: ConnectivityConfigurator.shared.encode(userData))
+        ConnectivityConfigurator.shared.invite(peer: data[indexPath.row], using: communication)
     }
 }
 
