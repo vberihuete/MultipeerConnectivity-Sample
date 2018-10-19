@@ -16,6 +16,8 @@ class ConnectivityConfigurator: NSObject{
     let LAST_INVITED: String = "last-invited-peer"
     let LAST_INVITED_DATA: String = "last-invited-communication"
     
+    var foundPeers: [MCPeerID] = []
+    
     private lazy var worker : ConnectivityWorker = {
         let worker = ConnectivityWorker()
         worker.delegate = self
@@ -79,6 +81,47 @@ class ConnectivityConfigurator: NSObject{
     func decode<T: Codable>(_ data: Data) -> T?{
         return self.worker.decode(data)
     }
+    
+    
+    /// This variable says if the device is engaged to the last one he tried to.
+    var engaged: Bool{
+        guard let lastInvited = self.lastInvited else {
+            return false
+        }
+        guard session.connectedPeers.contains(where: { (peerId) -> Bool in
+             peerId.displayName == lastInvited
+             }) else{
+                return false
+        }
+        
+        return true
+    }
+    
+    
+    /// This variable says the MCPeerID.displayName of the last iPad issued to connect
+    var lastInvited: String?{
+        return UserDefaults.standard.value(forKey: LAST_INVITED) as? String
+    }
+    
+    
+    
+    /// Tries to engage the iphone to the last isued ipad
+    /// providing in a callback whether it succesed or not
+    /// - Parameter callback: This is a clousure that provides a parameter saying whether it send the engament succesfully or not
+    func engage(callback: @escaping (Bool) -> () = {_ in }){
+        guard let lastInvited = self.lastInvited, let peerID = foundPeers.filter({ (peerID) -> Bool in
+            return peerID.displayName == lastInvited
+        }).first, let data = UserDefaults.standard.value(forKey: LAST_INVITED_DATA) as? Data, let communication: Communication = self.decode(data) else {
+            callback(false)
+            return
+        }
+        if lastInvited == peerID.displayName, !engaged{
+                Dispatch.main(delay: 4) {
+                    self.invite(peer: peerID, using: communication)
+                    callback(true)
+                }
+        }
+    }
 }
 
 
@@ -107,48 +150,49 @@ extension ConnectivityConfigurator: MCSessionDelegate{
 extension ConnectivityConfigurator: ConnectivityWorkerDelegate{
     
     func handle(invitation: @escaping (Bool, MCSession?) -> (), withData data: Data?) {
-        guard let data = data, let communication: Communication = self.decode(data), communication.type == .join else{
-            // TODO:  remove
-            print("Session rejected because no credentials were sent")
-            invitation(false, self.session)
-            return
+        Dispatch.async {
+            guard let data = data, let communication: Communication = self.decode(data), communication.type == .join else{
+                // TODO:  remove
+                print("Session rejected because no credentials were sent")
+                invitation(false, self.session)
+                return
+            }
+            
+            guard communication.origin == .phone, UIDevice.current.userInterfaceIdiom == .pad else{
+                print("Session rejected because only phones can request connections and they can only be directed to an ipad")
+                invitation(false, self.session)
+                return
+            }
+            
+            print("here's the parsed data")
+            if let data: [String] = self.decode(communication.data) {
+                //TODO: Validate user data
+                print(data)
+            }
+            print("End of the parsed data")
+            invitation(true, self.session)
         }
-        
-        guard communication.origin == .phone, UIDevice.current.userInterfaceIdiom == .pad else{
-            print("Session rejected because only phones can request connections and they can only be directed to an ipad")
-            invitation(false, self.session)
-            return
-        }
-        
-        print("here's the parsed data")
-        if let data: [String] = self.decode(communication.data) {
-            //TODO: Validate user data
-            print(data)
-        }
-        print("End of the parsed data")
-        invitation(true, self.session)
     }
     
     func browser(foundPeer: MCPeerID) {
         delegate?.browser(foundPeer: foundPeer)
+        if foundPeers.filter({ (peer) -> Bool in
+            return peer.displayName == foundPeer.displayName
+        }).count == 0 {
+            foundPeers.append(foundPeer)
+        }
         print("Found peer: \(foundPeer.displayName)")
-        // TODO: consider moving this code a separate file
-        guard let lastInvited = UserDefaults.standard.value(forKey: LAST_INVITED) as? String, let data = UserDefaults.standard.value(forKey: LAST_INVITED_DATA) as? Data, let communication: Communication = self.decode(data) else {
+        guard !engaged else {
             return
         }
-        if lastInvited == foundPeer.displayName/*, !session.connectedPeers.contains(where: { (peerId) -> Bool in
-            peerId.displayName == lastInvited
-        })*/{
-            Dispatch.main(delay: 2) {
-                self.invite(peer: foundPeer, using: communication)
-            }
-        }else{
-            print("already in session")
-        }
+        self.engage()
     }
     
     func browser(lostPeer: MCPeerID) {
         delegate?.browser(lostPeer: lostPeer)
+        self.foundPeers = foundPeers.filter({ (peer) -> Bool in
+            return peer.displayName != lostPeer.displayName
+        })
     }
     
     
