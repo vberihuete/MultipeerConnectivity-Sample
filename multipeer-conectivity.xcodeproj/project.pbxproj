@@ -18,7 +18,6 @@
 		9FF7C16F21753FC60001C3D4 /* multipeer_conectivity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9FF7C16D21753FC60001C3D4 /* multipeer_conectivity.xcdatamodeld */; };
 		9FF7C17121753FC80001C3D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FF7C17021753FC80001C3D4 /* Assets.xcassets */; };
 		9FF7C17421753FC80001C3D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FF7C17221753FC80001C3D4 /* LaunchScreen.storyboard */; };
-		9FF7C17C2175409A0001C3D4 /* ConnectivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF7C17B2175409A0001C3D4 /* ConnectivityService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +34,6 @@
 		9FF7C17021753FC80001C3D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FF7C17321753FC80001C3D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9FF7C17521753FC80001C3D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9FF7C17B2175409A0001C3D4 /* ConnectivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +109,6 @@
 		9FF7C17D2175409F0001C3D4 /* connectivity */ = {
 			isa = PBXGroup;
 			children = (
-				9FF7C17B2175409A0001C3D4 /* ConnectivityService.swift */,
 				9F82B28F2177BAA8008B94C8 /* Communication.swift */,
 			);
 			path = connectivity;
@@ -188,7 +185,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FF7C17C2175409A0001C3D4 /* ConnectivityService.swift in Sources */,
 				9FF7C16F21753FC60001C3D4 /* multipeer_conectivity.xcdatamodeld in Sources */,
 				9F82B29821794074008B94C8 /* ConnectivityConfigurator.swift in Sources */,
 				9F82B2902177BAA8008B94C8 /* Communication.swift in Sources */,
