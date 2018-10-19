@@ -13,6 +13,9 @@ class ConnectivityConfigurator: NSObject{
     
     static let shared = ConnectivityConfigurator()
     
+    let LAST_INVITED: String = "last-invited-peer"
+    let LAST_INVITED_DATA: String = "last-invited-communication"
+    
     private lazy var worker : ConnectivityWorker = {
         let worker = ConnectivityWorker()
         worker.delegate = self
@@ -57,6 +60,8 @@ class ConnectivityConfigurator: NSObject{
     /// Invites a peerId into a session
     func invite(peer peerId: MCPeerID, using data: Communication? = nil, with timeout: TimeInterval = 20){
         self.worker.invite(peer: peerId, into: self.session, using: data, with: timeout)
+        UserDefaults.standard.set(peerId.displayName, forKey: LAST_INVITED)
+        UserDefaults.standard.set(self.encode(data), forKey: LAST_INVITED_DATA)
     }
     
     /// Encodes the given data and if it throws an error it will return an empty data pb
@@ -126,6 +131,20 @@ extension ConnectivityConfigurator: ConnectivityWorkerDelegate{
     
     func browser(foundPeer: MCPeerID) {
         delegate?.browser(foundPeer: foundPeer)
+        print("Found peer: \(foundPeer.displayName)")
+        // TODO: consider moving this code a separate file
+        guard let lastInvited = UserDefaults.standard.value(forKey: LAST_INVITED) as? String, let data = UserDefaults.standard.value(forKey: LAST_INVITED_DATA) as? Data, let communication: Communication = self.decode(data) else {
+            return
+        }
+        if lastInvited == foundPeer.displayName/*, !session.connectedPeers.contains(where: { (peerId) -> Bool in
+            peerId.displayName == lastInvited
+        })*/{
+            Dispatch.main(delay: 2) {
+                self.invite(peer: foundPeer, using: communication)
+            }
+        }else{
+            print("already in session")
+        }
     }
     
     func browser(lostPeer: MCPeerID) {
