@@ -17,19 +17,24 @@ class ViewController: UIViewController {
     
     var data = [MCPeerID]()
     
-    let connectivityService = ConnectivityService()
+//    let connectivityService = ConnectivityService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        connectivityService.delegate = self
+        ConnectivityConfigurator.shared.delegate = self
+        ConnectivityConfigurator.shared.start()
         devicesLabel.text = UIDevice.current.name
     }
 
     @IBAction func doSomethingAction(_ sender: Any) {
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        ConnectivityConfigurator.shared.end()
+    }
 }
 
 extension ViewController: UITableViewDataSource{
@@ -51,12 +56,13 @@ extension ViewController: UITableViewDataSource{
 
 extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let name = data[indexPath.row]
-        connectivityService.invite(peer: name)
+//        let name = data[indexPath.row]
+        ConnectivityConfigurator.shared.invite(peer: data[indexPath.row])
+//        connectivityService.invite(peer: name)
     }
 }
 
-extension ViewController: ConnectivityServiceDelegate{
+extension ViewController: ConnectivityConfiguratorDelegate{
     func browser(foundPeer: MCPeerID) {
         if data.filter({ (peer) -> Bool in
             return peer.displayName == foundPeer.displayName
@@ -78,6 +84,5 @@ extension ViewController: ConnectivityServiceDelegate{
             self.connectedLabel.text = "\(peers.map{$0.displayName})"
         }
     }
-    
 }
 
