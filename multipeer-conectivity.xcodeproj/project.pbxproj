@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F02C0B2217CEC9800E91193 /* ProductWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F02C0B1217CEC9800E91193 /* ProductWorker.swift */; };
+		9F02C0B6217CEEB200E91193 /* Syncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F02C0B5217CEEB200E91193 /* Syncable.swift */; };
 		9F82B28E217563E7008B94C8 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F82B28D217563E7008B94C8 /* Dispatch.swift */; };
 		9F82B2902177BAA8008B94C8 /* Communication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F82B28F2177BAA8008B94C8 /* Communication.swift */; };
 		9F82B29321793F96008B94C8 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F82B29221793F96008B94C8 /* Product.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F02C0B1217CEC9800E91193 /* ProductWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductWorker.swift; sourceTree = "<group>"; };
+		9F02C0B5217CEEB200E91193 /* Syncable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Syncable.swift; sourceTree = "<group>"; };
 		9F82B28D217563E7008B94C8 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
 		9F82B28F2177BAA8008B94C8 /* Communication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Communication.swift; sourceTree = "<group>"; };
 		9F82B29221793F96008B94C8 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -47,10 +51,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F02C0B3217CED1400E91193 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				9F82B29121793F84008B94C8 /* model */,
+				9F02C0B4217CED1F00E91193 /* worker */,
+				9F02C0B5217CEEB200E91193 /* Syncable.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		9F02C0B4217CED1F00E91193 /* worker */ = {
+			isa = PBXGroup;
+			children = (
+				9F02C0B1217CEC9800E91193 /* ProductWorker.swift */,
+			);
+			path = worker;
+			sourceTree = "<group>";
+		};
+		9F02C0B7217D62A600E91193 /* dto */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = dto;
+			sourceTree = "<group>";
+		};
 		9F82B29121793F84008B94C8 /* model */ = {
 			isa = PBXGroup;
 			children = (
 				9F82B29221793F96008B94C8 /* Product.swift */,
+				9F02C0B7217D62A600E91193 /* dto */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -90,9 +120,9 @@
 		9FF7C16521753FC60001C3D4 /* multipeer-conectivity */ = {
 			isa = PBXGroup;
 			children = (
-				9F82B29121793F84008B94C8 /* model */,
 				9FF7C16621753FC60001C3D4 /* AppDelegate.swift */,
 				9FF7C16821753FC60001C3D4 /* ViewController.swift */,
+				9F02C0B3217CED1400E91193 /* data */,
 				9FF7C16A21753FC60001C3D4 /* Main.storyboard */,
 				9FF7C17021753FC80001C3D4 /* Assets.xcassets */,
 				9FF7C17221753FC80001C3D4 /* LaunchScreen.storyboard */,
@@ -100,8 +130,6 @@
 				9FF7C16D21753FC60001C3D4 /* multipeer_conectivity.xcdatamodeld */,
 				9FF7C17D2175409F0001C3D4 /* connectivity */,
 				9F82B28D217563E7008B94C8 /* Dispatch.swift */,
-				9F82B2962179404F008B94C8 /* worker */,
-				9F82B2992179407C008B94C8 /* configurator */,
 			);
 			path = "multipeer-conectivity";
 			sourceTree = "<group>";
@@ -109,6 +137,8 @@
 		9FF7C17D2175409F0001C3D4 /* connectivity */ = {
 			isa = PBXGroup;
 			children = (
+				9F82B2992179407C008B94C8 /* configurator */,
+				9F82B2962179404F008B94C8 /* worker */,
 				9F82B28F2177BAA8008B94C8 /* Communication.swift */,
 			);
 			path = connectivity;
@@ -189,9 +219,11 @@
 				9F82B29821794074008B94C8 /* ConnectivityConfigurator.swift in Sources */,
 				9F82B2902177BAA8008B94C8 /* Communication.swift in Sources */,
 				9F82B28E217563E7008B94C8 /* Dispatch.swift in Sources */,
+				9F02C0B6217CEEB200E91193 /* Syncable.swift in Sources */,
 				9F82B2952179403A008B94C8 /* ConnectivityWorker.swift in Sources */,
 				9FF7C16921753FC60001C3D4 /* ViewController.swift in Sources */,
 				9FF7C16721753FC60001C3D4 /* AppDelegate.swift in Sources */,
+				9F02C0B2217CEC9800E91193 /* ProductWorker.swift in Sources */,
 				9F82B29321793F96008B94C8 /* Product.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
