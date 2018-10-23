@@ -13,4 +13,11 @@ struct Product: Codable{
     var title: String
     var description: String
     var price: Double
+    
+    init(id: Int, title: String, description: String, price: Double) {
+        self.id = id
+        self.title  = title
+        self.description = description
+        self.price = price
+    }
 }
