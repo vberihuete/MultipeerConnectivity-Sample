@@ -21,9 +21,9 @@ struct ProductWorker: Syncable {
         return "Product"
     }
     
-    func load(from: LoadSource, callback: ([Product]) -> ()) {
-        
-    }
+//    func load(from: LoadSource, callback: ([Product]) -> ()) {
+//
+//    }
     
     func parse(dataFor data: Product) -> NSManagedObject {
         let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)

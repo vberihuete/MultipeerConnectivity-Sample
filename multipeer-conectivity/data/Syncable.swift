@@ -32,9 +32,9 @@ protocol Syncable {
     
     func performContextSave()
     
-    func load(fromServer callback: ([Entity]) -> ())
+    func load(fromServer limit: Int?, offset: Int?, callback: ([Entity]) -> ())
 
-    func load(fromLocal callback: ([Entity]) -> ())
+    func load(fromLocal limit: Int?, offset: Int?, callback: ([Entity]) -> ())
 }
 
 //enum LoadSource{
